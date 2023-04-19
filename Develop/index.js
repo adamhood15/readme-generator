@@ -1,30 +1,90 @@
 // TODO: Include packages needed for this application
-const fs = require('fs');
+const writeFile = require('fs').promises;
 const { prompt } = require('inquirer');
-const readMe = require('../');
 
-const content = 'hello';
 
 // TODO: Create an array of questions for user input
 const questions = [
-    "What was your motivation?",
-    "Why did you build this project?",
-    "What problem does it solve?",
-    "What did you learn?",
-    "What makes your project stand out?"
+    {
+        type: 'input', 
+        message: "What is your GitHub username?",
+        name: 'userName'
+    },
+    {
+        type: 'input', 
+        message: "What is your email address?",
+        name: 'email'
+    },
+    {
+        type: 'input', 
+        message: "What is your projects name?",
+        name: 'title'
+    },
+    {
+        type: 'input', 
+        message: "Please write a short description of your project.",
+        name: 'description'
+    },
+    {
+        type: 'input', 
+        message: "What kind of license should your project have?",
+        name: 'license'
+    },
+    {
+        type: 'input', 
+        message: "What command should be run to install dependencies?",
+        name: 'dependencies'
+    },
+    {
+        type: 'input', 
+        message: "What command should be run to run tests?",
+        name: 'tests'
+    },
+    {
+        type: 'input', 
+        message: "What does the user need to know about using the repo?",
+        name: 'needToKnow'
+    },
+    {
+        type: 'input', 
+        message: "What does the user need to know about using the repo?",
+        name: 'fyi'
+    },
 ];
 
-// TODO: Create a function to write README file
-fs.writeFile(readMe, content, err => {
-    if (err) {
-        console.error(err);
-    } else {'content written!'}
-});;
 
-function writeToFile(readMe, data) {}
+async function init() {
+    try {
+        const answers = await prompt(questions);
+        const {userName, email, title, description, license, dependencies, tests, needToKnow, fyi} = answers;
 
-// TODO: Create a function to initialize app
-function init() {}
+        const markdown = `# ${title}
+                        # Description
+                        ${description} 
+                        
+                        # Usage
+                        To use this application 
+                        
+                        # Credits
+                        User: ${userName}
+                        Email: ${email}
+                        
+                        # License
+                        ${license}`
+
+        writeFile('../README.md', markdown, (err) => {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log('README updated!');
+                }});
+        
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
 
 // Function call to initialize app
 init();
