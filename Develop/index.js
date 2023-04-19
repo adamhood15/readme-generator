@@ -58,6 +58,20 @@ async function init() {
         const answers = await prompt(questions);
         const {userName, email, title, description, license, dependencies, tests, needToKnow, fyi} = answers;
 
+        const markdown = `# ${title}
+                        # Description
+                        ${description} 
+                        
+                        # Usage
+                        To use this application 
+                        
+                        # Credits
+                        User: ${userName}
+                        Email: ${email}
+                        
+                        # License
+                        ${license}`
+
         writeFile('../README.md', markdown, (err) => {
                 if (err) {
                     console.error(err);
