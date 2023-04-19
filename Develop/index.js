@@ -27,6 +27,11 @@ const questions = [
     },
     {
         type: 'input', 
+        message: "How does the user install the application?",
+        name: 'installation'
+    },
+    {
+        type: 'input', 
         message: "What kind of license should your project have?",
         name: 'license'
     },
@@ -50,6 +55,11 @@ const questions = [
         message: "What does the user need to know about using the repo?",
         name: 'fyi'
     },
+    {
+        type: 'input', 
+        message: "How can the user contribute to the project?",
+        name: 'openSource'
+    },
 ];
 
 
@@ -60,17 +70,36 @@ async function init() {
 
         const markdown = `# ${title}
                         # Description
-                        ${description} 
+                        ${description}
+                        
+                        # Table of Contents
+                        -[Installation]()
+                        -[Usage]()
+                        -[License]()
+                        -[Contributing]()
+                        -[Tests]()
+                        -[Questions]()
+                        -[Credits]()
+
+                        # Installation
+                        ${installation}
                         
                         # Usage
-                        To use this application 
-                        
-                        # Credits
-                        User: ${userName}
-                        Email: ${email}
+                        ${needToKnow}
                         
                         # License
-                        ${license}`
+                        ${license}
+
+                        # Contributing
+                        ${openSource}
+
+                        # Questions
+                        Please reach out to me below if you have any questions.
+
+                        User: ${userName}
+                        Email: ${email}`
+
+                        
 
         writeFile('../README.md', markdown, (err) => {
                 if (err) {
