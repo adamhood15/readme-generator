@@ -1,5 +1,6 @@
 // TODO: Include packages needed for this application
 const {writeFile} = require('fs').promises;
+const { default: Choices } = require('inquirer/lib/objects/choices');
 const generateMarkdown = require('./utils/generateMarkdown')
 const { prompt } = require('inquirer');
 
@@ -32,9 +33,12 @@ const questions = [
         name: 'installation'
     },
     {
-        type: 'input', 
+        type: 'list', 
         message: "What kind of license should your project have?",
-        name: 'license'
+        name: 'license',
+        choices: ['Apache 2.0', 'GNU General Public v3.0', 'MIT', 'BSD 2-Clause "Simplified"', 'Boost Software 1.0', 
+        'Creative Commons Zero v1.0 Universal', 'Eclipse Public 2.0', 'GNU Affero v3.0', 'GNU General Public v2.0', 
+        'Mozilla Public 2.0', 'The Unlicense']
     },
     {
         type: 'input', 
@@ -53,11 +57,6 @@ const questions = [
     },
     {
         type: 'input', 
-        message: "What does the user need to know about using the repo?",
-        name: 'fyi'
-    },
-    {
-        type: 'input', 
         message: "How can the user contribute to the project?",
         name: 'openSource'
     },
@@ -72,7 +71,7 @@ const questions = [
 async function init() {
     try {
         const answers = await prompt(questions);
-        const {userName, email, title, description, license, dependencies, tests, needToKnow, fyi, installation, openSource, credits} = answers;
+        const {userName, email, title, description, license, dependencies, tests, needToKnow, installation, openSource, credits} = answers;
 
         const markdown = 
 `# ${title}
@@ -91,11 +90,15 @@ ${description}
 # Installation
 ${installation}
 
+To install dependencies, run the following command in the command line ${dependencies}.
+
 # Usage
 ${needToKnow}
 
+To run tests, run the following command in the command line ${tests}.
+
 # License
-${license}
+Notice: This application is covered under the ${license} license.
 
 # Contributing
 ${openSource}
@@ -103,8 +106,7 @@ ${openSource}
 # Questions
 Please reach out to me below if you have any questions.
 
-
-User: ${userName}
+GitHub User Name: ${userName}
 Email: ${email}
 
 # Credits
