@@ -1,5 +1,6 @@
 // TODO: Include packages needed for this application
 const {writeFile} = require('fs').promises;
+const generateMarkdown = require('./utils/generateMarkdown')
 const { prompt } = require('inquirer');
 
 
@@ -102,6 +103,7 @@ ${openSource}
 # Questions
 Please reach out to me below if you have any questions.
 
+
 User: ${userName}
 Email: ${email}
 
@@ -116,7 +118,6 @@ ${credits}`
         console.log(err);
     }
 }
-
 
 // Function call to initialize app
 init();
