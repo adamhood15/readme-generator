@@ -1,10 +1,10 @@
-// TODO: Include packages needed for this application
+// Packages needed for this application
 const {writeFile} = require('fs').promises;
-const generateMarkdown = require('./utils/generateMarkdown')
 const { prompt } = require('inquirer');
+const renderLicenseBadge = require('./utils/generateMarkdown');
 
 
-// TODO: Create an array of questions for user input
+// Array of questions for the user to generate a readme.
 const questions = [
     {
         type: 'input', 
@@ -27,14 +27,21 @@ const questions = [
         name: 'description'
     },
     {
+        type: 'list',
+        message: "Would you like to include a screenshot of your application?",
+        name: 'screenshot',
+        choices: ['Yes', 'No']
+    },
+    {
         type: 'input', 
         message: "How does the user install the application?",
         name: 'installation'
     },
     {
-        type: 'input', 
+        type: 'list', 
         message: "What kind of license should your project have?",
-        name: 'license'
+        name: 'license',
+        choices: ['Apache', 'GNU', 'MIT', 'BSD', 'Boost',  'Eclipse', 'Mozilla', 'Unlicense', 'None']
     },
     {
         type: 'input', 
@@ -53,11 +60,6 @@ const questions = [
     },
     {
         type: 'input', 
-        message: "What does the user need to know about using the repo?",
-        name: 'fyi'
-    },
-    {
-        type: 'input', 
         message: "How can the user contribute to the project?",
         name: 'openSource'
     },
@@ -68,53 +70,15 @@ const questions = [
     },
 ];
 
-
+//Function that initializes the application
 async function init() {
     try {
         const answers = await prompt(questions);
-        const {userName, email, title, description, license, dependencies, tests, needToKnow, fyi, installation, openSource, credits} = answers;
-
-        const markdown = 
-`# ${title}
-# Description
-${description}
-
-# Table of Contents
-## -[Installation](https://github.com/adamhood15/readme-generator/blob/main/README.md#installation)\n
-## -[Usage](https://github.com/adamhood15/readme-generator/blob/main/README.md#usage)\n
-## -[License](https://github.com/adamhood15/readme-generator/blob/main/README.md#license)\n
-## -[Contributing](https://github.com/adamhood15/readme-generator/blob/main/README.md#contributing)\n
-## -[Tests](https://github.com/adamhood15/readme-generator/blob/main/README.md#tests)\n
-## -[Questions](https://github.com/adamhood15/readme-generator/blob/main/README.md#questions)\n
-## -[Credits](https://github.com/adamhood15/readme-generator/blob/main/README.md#credits)\n
-
-# Installation
-${installation}
-
-# Usage
-${needToKnow}
-
-# License
-${license}
-
-# Contributing
-${openSource}
-
-# Questions
-Please reach out to me below if you have any questions.
-
-
-User: ${userName}
-Email: ${email}
-
-# Credits
-${credits}`
-
-                        
+        renderLicenseBadge(answers);
         await writeFile('../README.md', markdown);
-        
-    }
-    catch (err) {
+        console.log('ReadMe Generated!');
+
+    } catch (err) {
         console.log(err);
     }
 }
