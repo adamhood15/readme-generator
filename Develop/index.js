@@ -1,11 +1,10 @@
-// TODO: Include packages needed for this application
+// Packages needed for this application
 const {writeFile} = require('fs').promises;
-const { default: Choices } = require('inquirer/lib/objects/choices');
-const generateMarkdown = require('./utils/generateMarkdown')
 const { prompt } = require('inquirer');
+const renderLicenseBadge = require('./utils/generateMarkdown');
 
 
-// TODO: Create an array of questions for user input
+// Array of questions for the user to generate a readme.
 const questions = [
     {
         type: 'input', 
@@ -36,9 +35,7 @@ const questions = [
         type: 'list', 
         message: "What kind of license should your project have?",
         name: 'license',
-        choices: ['Apache 2.0', 'GNU General Public v3.0', 'MIT', 'BSD 2-Clause "Simplified"', 'Boost Software 1.0', 
-        'Creative Commons Zero v1.0 Universal', 'Eclipse Public 2.0', 'GNU Affero v3.0', 'GNU General Public v2.0', 
-        'Mozilla Public 2.0', 'The Unlicense']
+        choices: ['Apache', 'GNU', 'MIT', 'BSD', 'Boost',  'Eclipse', 'Mozilla', 'Unlicense', 'None']
     },
     {
         type: 'input', 
@@ -71,52 +68,11 @@ const questions = [
 async function init() {
     try {
         const answers = await prompt(questions);
-        const {userName, email, title, description, license, dependencies, tests, needToKnow, installation, openSource, credits} = answers;
-
-        const markdown = 
-`# ${title}
-# Description
-${description}
-
-# Table of Contents
-## -[Installation](https://github.com/adamhood15/readme-generator/blob/main/README.md#installation)\n
-## -[Usage](https://github.com/adamhood15/readme-generator/blob/main/README.md#usage)\n
-## -[License](https://github.com/adamhood15/readme-generator/blob/main/README.md#license)\n
-## -[Contributing](https://github.com/adamhood15/readme-generator/blob/main/README.md#contributing)\n
-## -[Tests](https://github.com/adamhood15/readme-generator/blob/main/README.md#tests)\n
-## -[Questions](https://github.com/adamhood15/readme-generator/blob/main/README.md#questions)\n
-## -[Credits](https://github.com/adamhood15/readme-generator/blob/main/README.md#credits)\n
-
-# Installation
-${installation}
-
-To install dependencies, run the following command in the command line ${dependencies}.
-
-# Usage
-${needToKnow}
-
-To run tests, run the following command in the command line ${tests}.
-
-# License
-Notice: This application is covered under the ${license} license.
-
-# Contributing
-${openSource}
-
-# Questions
-Please reach out to me below if you have any questions.
-
-GitHub User Name: ${userName}
-Email: ${email}
-
-# Credits
-${credits}`
-
-                        
+        renderLicenseBadge(answers);
         await writeFile('../README.md', markdown);
-        
-    }
-    catch (err) {
+        console.log('ReadMe Generated!');
+
+    } catch (err) {
         console.log(err);
     }
 }
