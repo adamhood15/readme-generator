@@ -64,7 +64,7 @@ const questions = [
     },
 ];
 
-
+//Function that initializes the application
 async function init() {
     try {
         const answers = await prompt(questions);
