@@ -24,17 +24,30 @@ function renderLicenseSection(answers, licenseLink, licenseBadge, license){
   if (license !== 'None') {
     const licenseSection = 
     `Notice: This application is covered under the ${licenseBadge} license.`
-    return generateMarkdown(answers, licenseSection, licenseBadge, licenseLink)
+    return renderScreenshot(answers, licenseSection, licenseBadge, licenseLink)
   
   } else {
     const licenseSection = 
     `Notice: This application is not covered under a license.`
-    return generateMarkdown(answers, licenseSection, licenseBadge, licenseLink);
+    return renderScreenshot(answers, licenseSection, licenseBadge, licenseLink);
   } 
 }
 
+function renderScreenshot(answers, licenseSection, licenseBadge, licenseLink) {
+
+  const {screenshot} = answers;
+
+  if (screenshot === 'Yes') {
+    const screenshotLink = `![Enter Alt Tag Here](Put relative path for image here)`
+    return generateMarkdown(answers, licenseSection, licenseBadge, licenseLink, screenshotLink);
+  } else {
+    const screenshotLink = '';
+    return generateMarkdown(answers, licenseSection, licenseBadge, licenseLink, screenshotLink);
+  }
+}
+
 // Generates the markdown for the readme file and creates it
-function generateMarkdown(answers, licenseSection, licenseBadge, licenseLink) {
+function generateMarkdown(answers, licenseSection, licenseBadge, licenseLink, screenshotLink) {
 
   const { userName, email, title, description, dependencies, tests, needToKnow, installation, openSource, credits } = answers;
 
@@ -44,6 +57,7 @@ function generateMarkdown(answers, licenseSection, licenseBadge, licenseLink) {
   ## Description
   ${description}
   <font size='2'>
+
   ## Table of Contents
   * [Installation](#installation)\n
   * [Usage](#usage)\n
@@ -53,13 +67,15 @@ function generateMarkdown(answers, licenseSection, licenseBadge, licenseLink) {
   * [Questions](#questions)\n
   * [Credits](#credits)\n
   </font>
+  
   ## Installation
   ${installation}
   
   To install dependencies, run the following command in the command line ${dependencies}.
   
   ## Usage
-  ${needToKnow}
+  ${needToKnow}\n\n
+  ${screenshotLink}
   
   To run tests, run the following command in the command line ${tests}.
   

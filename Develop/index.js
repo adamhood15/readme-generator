@@ -27,6 +27,12 @@ const questions = [
         name: 'description'
     },
     {
+        type: 'list',
+        message: "Would you like to include a screenshot of your application?",
+        name: 'screenshot',
+        choices: ['Yes', 'No']
+    },
+    {
         type: 'input', 
         message: "How does the user install the application?",
         name: 'installation'
