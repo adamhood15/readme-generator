@@ -38,7 +38,7 @@ function renderScreenshot(answers, licenseSection, licenseBadge, licenseLink) {
   const {screenshot} = answers;
 
   if (screenshot === 'Yes') {
-    const screenshotLink = `![Enter Alt Tag Here](Put relative path for image here)`
+    const screenshotLink = `![screenshot of application](./assets/screenshot.png)`
     return generateMarkdown(answers, licenseSection, licenseBadge, licenseLink, screenshotLink);
   } else {
     const screenshotLink = '';
@@ -67,7 +67,7 @@ function generateMarkdown(answers, licenseSection, licenseBadge, licenseLink, sc
   * [Questions](#questions)\n
   * [Credits](#credits)\n
   </font>
-  
+
   ## Installation
   ${installation}
   
@@ -77,7 +77,6 @@ function generateMarkdown(answers, licenseSection, licenseBadge, licenseLink, sc
   ${needToKnow}\n\n
   ${screenshotLink}
   
-  To run tests, run the following command in the command line ${tests}.
   
   ## License
   ${licenseSection}\n
@@ -85,6 +84,9 @@ function generateMarkdown(answers, licenseSection, licenseBadge, licenseLink, sc
 
   ## Contributing
   ${openSource}
+
+  ## Tests
+  To run a test of the application, run the following command in the command line ${tests}.
   
   ## Questions
   Please reach out to me below if you have any questions.\n
