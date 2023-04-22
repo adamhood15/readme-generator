@@ -55,7 +55,7 @@ const questions = [
     },
     {
         type: 'input', 
-        message: "What does the user need to know about using the repo?",
+        message: "How does the user use the repo?",
         name: 'needToKnow'
     },
     {
@@ -74,7 +74,7 @@ const questions = [
 async function init() {
     try {
         const answers = await prompt(questions);
-        renderLicenseBadge(answers);
+        await renderLicenseBadge(answers);
         await writeFile('../README.md', markdown);
         console.log('ReadMe Generated!');
 
